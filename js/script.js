@@ -48,14 +48,13 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 
 //# FUNCTIONS
 //function for cell creation
-const createCell = (content) => {
+const createCell = (content, blacklist, addedClass) => {
     const cell = document.createElement('div');
     cell.classList.add('cell', 'd-flex', 'justify-center', 'align-center');
     cell.append(content);
-    cell.addEventListener('click', () => {
-        cell.classList.toggle('clicked');
-        console.log(content);
-    })
+    if (blacklist.includes(content)){
+        cell.classList.add(addedClass);
+        }
     return cell;
 }
 
@@ -80,7 +79,7 @@ const getUniqueRandomNumbers = (quantity, min, max) => {
 }
 
 
-//1. Pick elements from DOM
+//Pick elements from DOM
 const inputDifficulty = document.getElementById('difficulty');
 console.log(inputDifficulty);
 const buttonPlay = document.getElementById('play');
@@ -91,44 +90,80 @@ const targetTitle = document.querySelector('main h1');
 console.log(targetTitle);
 const properties = document.querySelector(':root');
 console.log(properties);
+const targetMessage = document.getElementById('message');
 
 
 
-//2. Add listener to button
+//Add listener to button
 
 buttonPlay.addEventListener('click', () =>{
     console.log('press');
 
-    //3. Reset Grid
+    //Reset Grid
     targetGrid.innerText = '';
 
-    //4. Add d-none to title
+    //Add d-none to title
     targetTitle.classList.add('d-none');
 
-    //5. Add d-flex to grid
+    //Add d-flex to grid
 
     if (targetGrid.classList.contains('d-none')){
         targetGrid.classList.remove('d-none');
         targetGrid.classList.add('d-flex');
     }
 
-    //6. Define number of cells to create, based on difficulty
+    //Define number of cells to create, based on difficulty
     const RequiredCellsForRow = parseInt(inputDifficulty.value);
     console.log(RequiredCellsForRow);
     const cellNumber =  RequiredCellsForRow * RequiredCellsForRow; 
     console.log(cellNumber);
 
-    //7. Change cells for row variable in css depending on difficulty
+    //Change cells for row variable in css depending on difficulty
     properties.style.setProperty('--cell-for-row', RequiredCellsForRow);
 
-    //8. Generate bomb array
+    //Generate bomb array
     const bombCellsNumber = getUniqueRandomNumbers(16, 1, cellNumber);
     console.log(bombCellsNumber);
 
-    //8. Add cells into grid
+    //Define winning score
+    winningScore = cellNumber - bombCellsNumber.length;
+    console.log("winning score:" + winningScore);
+
+    //Initialize score variable
+    let score = 0;
+
+    //Initialize message variable and reset
+    let message = '';
+    targetMessage.innerText = message;
+
+    //Add cells into grid
      for (let i = 1; i <= cellNumber; i++){
 
-        const cell = createCell(i);
+        const cell = createCell(i, bombCellsNumber, 'bomb');
+        cell.addEventListener('click', () => {
+            //if cell is not clicked
+            if (!cell.classList.contains('clicked')){
+                cell.classList.add('clicked');
+                //if cell is a bomb
+                if(cell.classList.contains('bomb')){
+                    const allCells = targetGrid.querySelectorAll('.cell');
+                    for (let i = 0; i < allCells.length; i++){
+                        allCells[i].classList.add('clicked');
+                    }
+                    message = `Hai perso! Il tuo punteggio è: ${score}`;
+                    targetMessage.innerHTML = `<span class="text-red">${message}</span>`;
+                    
+                }
+                //if cell is not a bomb
+                else{
+                    score++;
+                    console.log(score);
+                    score === winningScore ? message = `Hai vinto, il tuo punteggio è: ${score}` : `Il punteggio attuale è: ${score}`
+                    targetMessage.innerText = message;
+            }
+            }
+            
+        })
         targetGrid.appendChild(cell);
 
     }
