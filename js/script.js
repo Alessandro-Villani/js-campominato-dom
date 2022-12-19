@@ -84,7 +84,7 @@ const getUniqueRandomNumbers = (quantity, min, max) => {
 const play = () =>{
     //Reset Grid
     targetGrid.innerText = '';
-
+ 
     //Add d-none to title
     targetTitle.classList.add('d-none');
 
@@ -115,6 +115,9 @@ const play = () =>{
     //Initialize score variable
     let score = 0;
 
+    //Reset Score text
+    targetScore.innerText = `Punteggio: ${score}`; 
+
     //Initialize message variable and reset
     let message = '';
     targetMessage.innerText = message;
@@ -138,7 +141,7 @@ const play = () =>{
                     for (let i = 0; i < allBombsImg.length; i++){
                         allBombsImg[i].classList.remove('d-none');
                     }
-                    message = `Hai perso! Il tuo punteggio è: ${score}`;
+                    message = `Game Over!`;
                     targetMessage.innerHTML = `<span class="text-red">${message}</span>`;
                     isStarted = false;
                 }
@@ -146,8 +149,9 @@ const play = () =>{
                 else{
                     score++;
                     console.log(score);
-                    score === winningScore ? message = `Hai vinto, il tuo punteggio è: ${score}` : `Il punteggio attuale è: ${score}`
+                    score === winningScore ? message = `Hai vinto!` : '';
                     targetMessage.innerText = message;
+                    targetScore.innerText = `Punteggio: ${score}`; 
                     
             }
             }
@@ -170,6 +174,7 @@ console.log(targetTitle);
 const properties = document.querySelector(':root');
 console.log(properties);
 const targetMessage = document.getElementById('message');
+const targetScore = document.getElementById('score');
 
 //Pick modal elements
 const modal = document.getElementById('modal');
@@ -199,6 +204,7 @@ noButton.addEventListener('click', () =>{
 buttonPlay.addEventListener('click', () =>{
 
     console.log('press');
+    targetScore.classList.remove('d-none');
 
     //Check if there is a started game
     if (isStarted){
