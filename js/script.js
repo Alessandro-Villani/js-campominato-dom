@@ -48,13 +48,13 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 
 //# FUNCTIONS
 //function for cell creation
-const createCell = (index, blacklist, addedClass) => {
+const createCell = (index, blacklist, addedClass, imgUrl) => {
     const cell = document.createElement('div');
     cell.classList.add('cell', 'd-flex', 'justify-center', 'align-center');
     const attribute = cell.setAttribute('data-index', index);
     if (blacklist.includes(index)){
         cell.classList.add(addedClass);
-        cell.innerHTML = `<img src="img/bomb.png" alt="bomb" class="d-none">`;
+        cell.innerHTML = `<img src="${imgUrl}" class="d-none">`;
         }
     return cell;
 }
@@ -79,27 +79,9 @@ const getUniqueRandomNumbers = (quantity, min, max) => {
     return randomNumbers;
 }
 
+//# PLAY FUNCTION
 
-//Pick elements from DOM
-const inputDifficulty = document.getElementById('difficulty');
-console.log(inputDifficulty);
-const buttonPlay = document.getElementById('play');
-console.log(buttonPlay);
-const targetGrid = document.querySelector('.grid');
-console.log(targetGrid);
-const targetTitle = document.querySelector('main h1');
-console.log(targetTitle);
-const properties = document.querySelector(':root');
-console.log(properties);
-const targetMessage = document.getElementById('message');
-
-
-
-//Add listener to button
-
-buttonPlay.addEventListener('click', () =>{
-    console.log('press');
-
+const play = () =>{
     //Reset Grid
     targetGrid.innerText = '';
 
@@ -138,9 +120,9 @@ buttonPlay.addEventListener('click', () =>{
     targetMessage.innerText = message;
 
     //Add cells into grid
-     for (let i = 1; i <= cellNumber; i++){
+    for (let i = 1; i <= cellNumber; i++){
 
-        const cell = createCell(i, bombCellsNumber, 'bomb');
+        const cell = createCell(i, bombCellsNumber, 'bomb', 'img/bomb.png');
         cell.addEventListener('click', () => {
             //if cell is not clicked
             if (!cell.classList.contains('clicked')){
@@ -158,7 +140,7 @@ buttonPlay.addEventListener('click', () =>{
                     }
                     message = `Hai perso! Il tuo punteggio è: ${score}`;
                     targetMessage.innerHTML = `<span class="text-red">${message}</span>`;
-                    
+                    isStarted = false;
                 }
                 //if cell is not a bomb
                 else{
@@ -166,12 +148,65 @@ buttonPlay.addEventListener('click', () =>{
                     console.log(score);
                     score === winningScore ? message = `Hai vinto, il tuo punteggio è: ${score}` : `Il punteggio attuale è: ${score}`
                     targetMessage.innerText = message;
+                    
             }
             }
             
         })
         targetGrid.appendChild(cell);
 
+    }
+}
+
+//Pick elements from DOM
+const inputDifficulty = document.getElementById('difficulty');
+console.log(inputDifficulty);
+const buttonPlay = document.getElementById('play');
+console.log(buttonPlay);
+const targetGrid = document.querySelector('.grid');
+console.log(targetGrid);
+const targetTitle = document.querySelector('main h1');
+console.log(targetTitle);
+const properties = document.querySelector(':root');
+console.log(properties);
+const targetMessage = document.getElementById('message');
+
+//Pick modal elements
+const modal = document.getElementById('modal');
+const yesButton = document.getElementById('yes-btn');
+const noButton = document.getElementById('no-btn');
+
+//Initialize flag for game start
+isStarted = false;
+
+//Modal button listeners and logic
+
+//+ Yes button
+yesButton.addEventListener('click', () =>{
+    modal.classList.remove('d-flex');
+    modal.classList.add('d-none');
+    play();
+});
+
+//+ No button
+noButton.addEventListener('click', () =>{
+    modal.classList.remove('d-flex');
+    modal.classList.add('d-none');
+})
+
+//Add listener to button
+
+buttonPlay.addEventListener('click', () =>{
+
+    console.log('press');
+
+    //Check if there is a started game
+    if (isStarted){
+        modal.classList.add('d-flex');
+        modal.classList.remove('d-none');
+    } else{
+        play();
+        isStarted = true;
     }
     
 });
