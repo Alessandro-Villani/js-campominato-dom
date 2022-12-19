@@ -1,0 +1,120 @@
+/*! CSS RESET */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*! CUSTOM PROPERTIES */
+
+:root{
+    --background-color: rgb(127,255,212);
+    --cell-for-row: 10;
+}
+
+/*! UTILS */
+
+.h-100{
+    height: 100%;
+}
+
+.d-none{
+    display: none;
+}
+
+.d-flex{
+    display: flex;
+}
+
+.align-center{
+    align-items: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+/*! GENERICS */
+
+.container{
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+img{
+    max-width: 100%;
+}
+
+/*! HEADER */
+
+header{
+    background-color: white;
+    height: 10vh;
+    padding: 1rem;
+}
+
+header a{
+    color: black;
+    text-decoration: none;
+}
+
+header img{
+    margin-right: 1rem;
+}
+
+#difficulty{
+    width: 200px;
+}
+
+#play{
+    padding: 2px 30px;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+
+
+
+/*! MAIN */
+
+main{
+    background-color: var(--background-color);
+    height: 82vh;
+    padding: 2rem;
+}
+
+.grid{
+    height: 60vh;
+    width: 60vh;
+    border: 1px solid black;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.cell{
+    height: calc(100% / var(--cell-for-row));
+    width: calc(100% / var(--cell-for-row));
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+
+.clicked{
+    background-color: var(--background-color);
+}
+
+/*! FOOTER */
+
+footer {
+    background-color: white;
+    height: 8vh;
+    padding: 1rem;
+}
+
+
+
