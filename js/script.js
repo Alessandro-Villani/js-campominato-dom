@@ -59,6 +59,26 @@ const createCell = (content) => {
     return cell;
 }
 
+//function for random number array generation
+const getUniqueRandomNumbers = (quantity, min, max) => {
+
+    const randomNumbers = [];
+    console.log(quantity, min, max);
+
+    do{
+        const number = Math.floor(Math.random() * (max - min + 1) + min);
+        console.log("number " + number);
+        console.log("includes " + randomNumbers.includes(number));
+        if (!randomNumbers.includes(number)){
+            randomNumbers.push(number);
+            console.log("array" + randomNumbers);
+        }
+
+    }while (randomNumbers.length < quantity);
+
+    return randomNumbers;
+}
+
 
 //1. Pick elements from DOM
 const inputDifficulty = document.getElementById('difficulty');
@@ -100,7 +120,11 @@ buttonPlay.addEventListener('click', () =>{
 
     //7. Change cells for row variable in css depending on difficulty
     properties.style.setProperty('--cell-for-row', RequiredCellsForRow);
-    
+
+    //8. Generate bomb array
+    const bombCellsNumber = getUniqueRandomNumbers(16, 1, cellNumber);
+    console.log(bombCellsNumber);
+
     //8. Add cells into grid
      for (let i = 1; i <= cellNumber; i++){
 
