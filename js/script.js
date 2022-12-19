@@ -48,14 +48,10 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 
 //# FUNCTIONS
 //function for cell creation
-const createCell = (index, blacklist, addedClass, imgUrl) => {
+const createCell = (index, blacklist) => {
     const cell = document.createElement('div');
     cell.classList.add('cell', 'd-flex', 'justify-center', 'align-center');
-    const attribute = cell.setAttribute('data-index', index);
-    if (blacklist.includes(index)){
-        cell.classList.add(addedClass);
-        cell.innerHTML = `<img src="${imgUrl}" class="d-none">`;
-        }
+    cell.setAttribute('data-index', index);
     return cell;
 }
 
@@ -125,21 +121,22 @@ const play = () =>{
     //Add cells into grid
     for (let i = 1; i <= cellNumber; i++){
 
-        const cell = createCell(i, bombCellsNumber, 'bomb', 'img/bomb.png');
+        const cell = createCell(i, bombCellsNumber);
         cell.addEventListener('click', () => {
             //if cell is not clicked
             if (!cell.classList.contains('clicked')){
                 cell.classList.add('clicked');
                 //if cell is a bomb
-                if(cell.classList.contains('bomb')){
+                if(bombCellsNumber.includes(parseInt(cell.getAttribute('data-index')))){
                     const allCells = targetGrid.querySelectorAll('.cell');
-                    const allBombsImg = targetGrid.querySelectorAll('.bomb img');
-                    console.log(allBombsImg);
                     for (let i = 0; i < allCells.length; i++){
                         allCells[i].classList.add('clicked');
-                    }
-                    for (let i = 0; i < allBombsImg.length; i++){
-                        allBombsImg[i].classList.remove('d-none');
+                        console.log(allCells[i]);
+                        console.log(bombCellsNumber.includes(i));
+                        if (bombCellsNumber.includes(i)){
+                            allCells[i].classList.add('bomb');
+                            allCells[i].innerHTML = `<img src="img/bomb.png">`;
+                            }
                     }
                     message = `Game Over!`;
                     targetMessage.innerHTML = `<span class="text-red">${message}</span>`;
