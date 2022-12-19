@@ -48,12 +48,13 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 
 //# FUNCTIONS
 //function for cell creation
-const createCell = (content, blacklist, addedClass) => {
+const createCell = (index, blacklist, addedClass) => {
     const cell = document.createElement('div');
     cell.classList.add('cell', 'd-flex', 'justify-center', 'align-center');
-    cell.append(content);
-    if (blacklist.includes(content)){
+    const attribute = cell.setAttribute('data-index', index);
+    if (blacklist.includes(index)){
         cell.classList.add(addedClass);
+        cell.innerHTML = `<img src="img/bomb.png" alt="bomb" class="d-none">`;
         }
     return cell;
 }
@@ -147,8 +148,13 @@ buttonPlay.addEventListener('click', () =>{
                 //if cell is a bomb
                 if(cell.classList.contains('bomb')){
                     const allCells = targetGrid.querySelectorAll('.cell');
+                    const allBombsImg = targetGrid.querySelectorAll('.bomb img');
+                    console.log(allBombsImg);
                     for (let i = 0; i < allCells.length; i++){
                         allCells[i].classList.add('clicked');
+                    }
+                    for (let i = 0; i < allBombsImg.length; i++){
+                        allBombsImg[i].classList.remove('d-none');
                     }
                     message = `Hai perso! Il tuo punteggio è: ${score}`;
                     targetMessage.innerHTML = `<span class="text-red">${message}</span>`;

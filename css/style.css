@@ -112,17 +112,21 @@ main{
     height: calc(100% / var(--cell-for-row));
     width: calc(100% / var(--cell-for-row));
     border: 1px solid black;
-    background-color: white;
+    background-color: var(--background-color);
     cursor: pointer;
 }
 
 .clicked{
-    background-color: var(--background-color);
+    background-color: dodgerblue;
     cursor: not-allowed;
 }
 
 .clicked.bomb{
     background-color: red;
+}
+
+.bomb img{
+    max-width: 50%;
 }
 
 /*! FOOTER */
