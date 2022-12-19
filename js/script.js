@@ -133,9 +133,9 @@ const play = () =>{
                         allCells[i].classList.add('clicked');
                         console.log(allCells[i]);
                         console.log(bombCellsNumber.includes(i));
-                        if (bombCellsNumber.includes(i)){
-                            allCells[i-1].classList.add('bomb');
-                            allCells[i-1].innerHTML = `<img src="img/bomb.png">`;
+                        if (bombCellsNumber.includes(i+1)){
+                            allCells[i].classList.add('bomb');
+                            allCells[i].innerHTML = `<img src="img/bomb.png">`;
                             }
                     }
                     message = `Game Over!`;
