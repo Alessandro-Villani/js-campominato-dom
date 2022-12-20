@@ -48,7 +48,7 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 
 //# FUNCTIONS
 //function for cell creation
-const createCell = (index, blacklist) => {
+const createCell = (index) => {
     const cell = document.createElement('div');
     cell.classList.add('cell', 'd-flex', 'justify-center', 'align-center');
     cell.setAttribute('data-index', index);
@@ -121,7 +121,7 @@ const play = () =>{
     //Add cells into grid
     for (let i = 1; i <= cellNumber; i++){
 
-        const cell = createCell(i, bombCellsNumber);
+        const cell = createCell(i);
         cell.addEventListener('click', () => {
             //if cell is not clicked
             if (!cell.classList.contains('clicked')){
